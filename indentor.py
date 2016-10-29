@@ -11,9 +11,6 @@ for char in text:
         print current_string
         current_string = " " * indent
         str_length = 0
-    elif not (char == '{' or char == '}' or char == '[' or char == ']' or char == ','):
-        str_length += 1
-        current_string += char
     elif char == '}' or char == ']':
         print current_string
         current_string = " " * indent
@@ -31,3 +28,6 @@ for char in text:
         print current_string + char
         current_string = " " * indent
         str_length = 0
+    else:
+        str_length += 1
+        current_string += char
