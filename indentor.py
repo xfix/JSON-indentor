@@ -1,57 +1,33 @@
 #!/usr/bin/python2
-f=open("raw.txt")
-text=f.read()
-istack=[]
-n=0
-s=0
-i=0
-st=""
-text=text.replace("\n{","{")
-for c in text:
-    if c=='\n':
-        print st
-        st=""
-        i=1
-        while i<=s:
-            st=st+" "
-            i=i+1
-        n=0;
-    elif not(c=='{' or c=='}' or c=='[' or c==']' or c==','):
-        n=n+1
-        st=st+c
-    elif c=='}' or c==']':
-        print st
-        st=""
-        i=1
-        while i<=s:
-            st=st+" "
-            i=i+1
-        print st+c
-        st=""
-        s=istack.pop()
-        i=1
-        while i<=s:
-            st=st+" "
-            i=i+1
-        n=0
-    elif c=='{' or c=='[':
-        istack.append(s)
-        s=n+istack[-1]
-        print st+c
-        st=""
-        i=1
-        while i<=s:
-            st=st+" "
-            i=i+1
-        n=0
-    elif c==',':
-        print st+c
-        st=""
-        i=1
-        while i<=s:
-            st=st+" "
-            i=i+1
-        n=0
-            
-        
-        
+with open("raw.txt") as input_file:
+    text = input_file.read()
+istack = []
+str_length = 0
+indent = 0
+current_string = ""
+text = text.replace("\n{", "{")
+for char in text:
+    if char == '\n':
+        print current_string
+        current_string = " " * indent
+        str_length = 0
+    elif not (char == '{' or char == '}' or char == '[' or char == ']' or char == ','):
+        str_length += 1
+        current_string += char
+    elif char == '}' or char == ']':
+        print current_string
+        current_string = " " * indent
+        print current_string + char
+        indent = istack.pop()
+        current_string = " " * indent
+        str_length = 0
+    elif char == '{' or char == '[':
+        istack.append(indent)
+        indent = str_length + istack[-1]
+        print current_string + char
+        current_string = " " * indent
+        str_length = 0
+    elif char == ',':
+        print current_string + char
+        current_string = " " * indent
+        str_length = 0
